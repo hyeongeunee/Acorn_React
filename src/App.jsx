@@ -1,6 +1,9 @@
-import './App.css';
 import { Component } from 'react';
-
+import MyCounter from './components/MyCounter';
+import YourCounter from './components/YourCounter';
+import OurCounter from './components/OurCounter';
+import WeCounter from './components/WeCounter';
+import WeCounter2 from './components/WeCounter2';
 /*
 function App() {
   return (
@@ -19,6 +22,16 @@ class App extends Component {
         return (
             <div className="container">
                 <h1>인덱스 페이지 입니다.</h1>
+                <h3>MyCounter</h3>
+                <MyCounter />
+                <h3>YourCounter</h3>
+                <YourCounter />
+                <h3>OurCounter</h3>
+                <OurCounter />
+                <h3>WeCounter</h3>
+                <WeCounter />
+                <h3>WeCounter2</h3>
+                <WeCounter2 />
             </div>
         );
     }

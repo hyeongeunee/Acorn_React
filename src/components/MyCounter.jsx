@@ -8,9 +8,9 @@ class MyCounter extends Component {
     render() {
         return (
             <div>
-                <button>-</button>
+                <button onClick={this.state.count - 1}>-</button>
                 <strong>{this.state.count}</strong>
-                <button>+</button>
+                <button onClick={this.state.count + 1}>+</button>
             </div>
         );
     }
