@@ -6,23 +6,31 @@
     GET   /posts     => post 목록 얻어오기
     GET   /posts/1   => post 한개 얻어오기
     POST  /posts     => post 추가 하기
-    PUT   /posts/1     => post 수정 하기
+    PUT   /posts/1   => post 전체(모든칼럼) 수정 하기
+    PATCH /posts/1   => post 일부 수정 하기
     DELETE /posts/1  => post 삭제 하기 
 */
 import { useState, useEffect } from 'react';
 
+// ajax 요청을 도와줄 객체 import
+import axios from 'axios';
+
 //함수형 component
-export default function PostComponent() {
+export default function PostComponent2() {
     const [posts, setPosts] = useState([]);
 
     const getPosts = () => {
-        //출력할 데이터를 fetch() 함수를 이용해서 얻어오기
-        fetch('http://localhost:3001/posts')
-            .then((res) => res.json())
-            .then((data) => {
-                //data 는 post 목록이 들어 있는 배열
-                console.log(data);
-                setPosts(data);
+        //출력할 데이터를 axios 객체의 get() 함수를 이용해서 얻어오기
+        axios
+            .get('http://localhost:3001/posts')
+            .then((res) => {
+                //res.data 는 배열이다.
+                console.log(res.data);
+                //상태값 변경하기
+                setPosts(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
             });
     };
     /*
@@ -57,21 +65,17 @@ export default function PostComponent() {
                                 <button
                                     onClick={() => {
                                         const title = prompt('수정할 제목 입력...');
-                                        //서버에 전송할 정보를 object 에 담고
-                                        const obj = {
-                                            title,
-                                            author: item.author,
-                                        };
-                                        // put 방식으로 전송
-                                        fetch('http://localhost:3001/posts/' + item.id, {
-                                            method: 'put',
-                                            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-                                            body: JSON.stringify(obj), // object 에 담긴 정보를 json 문자열로 변환
-                                        })
-                                            .then((res) => res.json())
-                                            .then((data) => {
-                                                console.log(data);
+                                        axios
+                                            .put('http://localhost:3001/posts/' + item.id, {
+                                                title,
+                                                author: item.author,
+                                            })
+                                            .then((res) => {
+                                                console.log(res.data);
                                                 getPosts();
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
                                             });
                                     }}
                                 >
@@ -81,13 +85,14 @@ export default function PostComponent() {
                             <td>
                                 <button
                                     onClick={() => {
-                                        fetch('http://localhost:3001/posts/' + item.id, {
-                                            method: 'delete',
-                                        })
-                                            .then((res) => res.json())
-                                            .then((data) => {
-                                                console.log(data);
+                                        axios
+                                            .delete('http://localhost:3001/posts/' + item.id)
+                                            .then((res) => {
+                                                console.log(res.data);
                                                 getPosts();
+                                            })
+                                            .catch((error) => {
+                                                console.log(error);
                                             });
                                     }}
                                 >
@@ -112,22 +117,14 @@ export default function PostComponent() {
                     //전송할 폼 데이터
                     const formData = new FormData(e.target);
                     const queryString = new URLSearchParams(formData).toString();
-                    //fetch() 함수를 이용해서 전송
-                    fetch(url, {
-                        method,
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-                        body: queryString,
-                    })
-                        .then((res) => res.json())
-                        .then((data) => {
-                            console.log(data);
-                            //방금 추가된 데이터를 posts 에 추가하기
-                            //setPosts([...posts, data]);
-                            //목록전체를 다시 받아오기
+
+                    axios[method](url, queryString)
+                        .then((res) => {
+                            console.log(res.data);
                             getPosts();
                         })
                         .catch((error) => {
-                            console.log('에러 발생', error);
+                            console.log(error);
                         });
                 }}
             >
