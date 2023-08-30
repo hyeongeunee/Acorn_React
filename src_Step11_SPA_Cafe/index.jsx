@@ -1,0 +1,16 @@
+/*
+    npm  start  를 하게 되면 최초로 실행되는  파일은  src/index.js 이다 
+*/
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+// public/index.html 파일에서 id 가 root 인 요소에  App 을  렌더링하기
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
