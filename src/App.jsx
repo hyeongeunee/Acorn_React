@@ -1,14 +1,17 @@
-import { Component } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-class App extends Component {
-    //render() 메소드 에서 리턴해주는 jsx 를 활용해서 화면 구성이 된다.
-    render() {
-        return (
-            <div className="container">
-                <h1>인덱스 페이지 입니다.</h1>
-            </div>
-        );
-    }
+import { Home } from './pages';
+import BsNavbar from './components/BsNavbar';
+
+function App() {
+    return (
+        <div className="container">
+            <BsNavbar />
+            <Routes>
+                <Route path="/" Component={Home}></Route>
+            </Routes>
+        </div>
+    );
 }
 
 // import 한 곳에 무엇을 리턴해줄지 결정하기
