@@ -24,7 +24,7 @@ export default function MemberUpdateForm() {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, [num]);
 
     // input 요소 or textarea 에 입력할때마다 호출되는 함수
     const handleChange = (e) => {
